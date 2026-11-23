@@ -1,0 +1,290 @@
+{
+  "network": "studionet",
+  "chain_id": 61999,
+  "contract": "0x7c5a2f26EeC64Bf791b357a3AbE3Fc67f032E3fD",
+  "explorer": "https://explorer-studio.genlayer.com/address/0x7c5a2f26EeC64Bf791b357a3AbE3Fc67f032E3fD",
+  "source_sha256": "93a1488c0543bbef35dad5c55dd385d5b649cd8d1fe9df0106742822a9392b53",
+  "constructor": {},
+  "accounts": {
+    "funder": "0x1a369d23B0D06321b29eA9DE862533849d04648b",
+    "maintainer": "0x076AeE420B133d4faEAdC8436412BC5D326c5d60",
+    "stranger": "0xA0A4B4847F2ECc956362400F367be8543Bca8e1F"
+  },
+  "balances": {
+    "funder_before": "3649921371999978473",
+    "maintainer_before": "1000000000000000000",
+    "funder_after": "3939764115999997531",
+    "maintainer_after": "1059352323999993769"
+  },
+  "owed": {
+    "funder": "90000000000000000",
+    "maintainer": "60000000000000000"
+  },
+  "payouts": {
+    "funder": [
+      {
+        "tx": "0xb7e8f6c80913e75642907d4fe771ebc6a52aac4feee5c1e53a306b9d6e8442da",
+        "value": "30000000000000000",
+        "created_at": "2026-11-23T22:26:14.757024+00:00"
+      },
+      {
+        "tx": "0xa3681deabc11af5ed072524dee82ea16cbd4e90588c8b888d4147248a78ee6bb",
+        "value": "60000000000000000",
+        "created_at": "2026-11-23T22:26:32.218796+00:00"
+      }
+    ],
+    "maintainer": [
+      {
+        "tx": "0xbab49e43906b67a01e24b02f8a203ee478bce3f4171e80d754d07149b98f89b0",
+        "value": "30000000000000000",
+        "created_at": "2026-11-23T21:56:28.771732+00:00"
+      },
+      {
+        "tx": "0xcf2107fa8d08f661c20e3b8863255f1070ffc6f3549c791b6dddc1b8c777dcfd",
+        "value": "30000000000000000",
+        "created_at": "2026-11-23T22:05:55.668815+00:00"
+      }
+    ]
+  },
+  "received": {
+    "funder": "90000000000000000",
+    "maintainer": "60000000000000000"
+  },
+  "held_after": "0",
+  "steps": [
+    {
+      "step": "deploy",
+      "method": "deploy",
+      "from": "0x1a369d23B0D06321b29eA9DE862533849d04648b",
+      "tx": "0xecf670535d5269594f03757edf3060d0db7f10470276f6215002a952ca13fcbb",
+      "status": "FINALIZED",
+      "ok": true,
+      "refusal": "",
+      "address": "0x7c5a2f26EeC64Bf791b357a3AbE3Fc67f032E3fD"
+    },
+    {
+      "step": "plan 0 opened: a guide with a recent date, 3 windows, 0.09 GEN",
+      "method": "open",
+      "from": "0x1a369d23B0D06321b29eA9DE862533849d04648b",
+      "tx": "0x4ceb31b3990fdd43cf1588f38dd9207d8cc758af442814609647c05c1890d93d",
+      "status": "ACCEPTED",
+      "ok": true,
+      "refusal": ""
+    },
+    {
+      "step": "plan 1 opened: an old copy of the guide, 2 windows, 0.06 GEN",
+      "method": "open",
+      "from": "0x1a369d23B0D06321b29eA9DE862533849d04648b",
+      "tx": "0xaf7c9fe035a70795883e1310c06a34bd16f9cecb52561c975dfb260e2426e603",
+      "status": "ACCEPTED",
+      "ok": true,
+      "refusal": ""
+    },
+    {
+      "step": "a check from someone who is not the maintainer",
+      "method": "check",
+      "from": "0xA0A4B4847F2ECc956362400F367be8543Bca8e1F",
+      "tx": "0xd331487d0dccf7b7e71e1991fc6a87881185836fd5d4b249c02a24041d41f375",
+      "status": "ACCEPTED",
+      "ok": false,
+      "refusal": "[EXPECTED] only the named maintainer may check"
+    },
+    {
+      "step": "plan 0, window 0: the date is read off the page and is fresh: paid",
+      "method": "check",
+      "from": "0x076AeE420B133d4faEAdC8436412BC5D326c5d60",
+      "tx": "0x7b8cbe61f971a0cc43195b5ef146c1a9257bbf0d4be84a74ee9d73f7893c704f",
+      "status": "ACCEPTED",
+      "ok": true,
+      "refusal": ""
+    },
+    {
+      "step": "a second check in a window that is already paid",
+      "method": "check",
+      "from": "0x076AeE420B133d4faEAdC8436412BC5D326c5d60",
+      "tx": "0xf108f2c33dc46f176f46052a142e06eaee0ab15a5fedc690688c736f5a6bc5c8",
+      "status": "ACCEPTED",
+      "ok": false,
+      "refusal": "[EXPECTED] window 0 is already paid"
+    },
+    {
+      "step": "plan 1, window 0: the date is read off the page and is stale: not paid",
+      "method": "check",
+      "from": "0x076AeE420B133d4faEAdC8436412BC5D326c5d60",
+      "tx": "0xd3b3e56a13ce440175617ca0a7d58fe2c762a06c53b236e847b7fa6ed645dcbc",
+      "status": "ACCEPTED",
+      "ok": true,
+      "refusal": ""
+    },
+    {
+      "step": "plan 1, window 0: a second try, still stale: not paid",
+      "method": "check",
+      "from": "0x076AeE420B133d4faEAdC8436412BC5D326c5d60",
+      "tx": "0x899c191ca941a18f9f4f6d2ad1e310cb2b710b44e0dedc9af817a4959817cf0b",
+      "status": "ACCEPTED",
+      "ok": true,
+      "refusal": ""
+    },
+    {
+      "step": "a third check in a window that has used its two",
+      "method": "check",
+      "from": "0x076AeE420B133d4faEAdC8436412BC5D326c5d60",
+      "tx": "0x10f9a71974e1e572ce1b4c7a2c428fa10b67494b364bea9212ee6b8246826a3a",
+      "status": "ACCEPTED",
+      "ok": false,
+      "refusal": "[EXPECTED] window 0 has used its 2 checks"
+    },
+    {
+      "step": "plan 0, window 1: fresh again: paid",
+      "method": "check",
+      "from": "0x076AeE420B133d4faEAdC8436412BC5D326c5d60",
+      "tx": "0x8a282be7703e4e1fbf15ed4921bfa55d4127d97a62a637a6a8df48763d1e9d81",
+      "status": "ACCEPTED",
+      "ok": true,
+      "refusal": ""
+    },
+    {
+      "step": "closing plan 0 while its schedule is still running",
+      "method": "close",
+      "from": "0xA0A4B4847F2ECc956362400F367be8543Bca8e1F",
+      "tx": "0x03fd3af4ab5cbc50d97372c74aa202867d4de9b1ef7eb7171984eba9d364141c",
+      "status": "ACCEPTED",
+      "ok": false,
+      "refusal": "[EXPECTED] the schedule runs until 2026-11-23T22:24:56Z"
+    },
+    {
+      "step": "a check after plan 0's schedule ended (window 2 was never claimed)",
+      "method": "check",
+      "from": "0x076AeE420B133d4faEAdC8436412BC5D326c5d60",
+      "tx": "0xd6070eed71100008e5bddc6a02da345d5454c38323edb7d470d1a4afd0c41561",
+      "status": "ACCEPTED",
+      "ok": false,
+      "refusal": "[EXPECTED] the schedule ended at 2026-11-23T22:24:56Z; a late check is never read"
+    },
+    {
+      "step": "plan 0 closed: the unclaimed third installment returns to the funder",
+      "method": "close",
+      "from": "0xA0A4B4847F2ECc956362400F367be8543Bca8e1F",
+      "tx": "0x66cde6a5ba9879e137de18b4b3f1a7017ff91f740fb6f8157106a8de496de8ad",
+      "status": "ACCEPTED",
+      "ok": true,
+      "refusal": ""
+    },
+    {
+      "step": "plan 1 closed: nothing was ever fresh, the whole fee returns to the funder",
+      "method": "close",
+      "from": "0xA0A4B4847F2ECc956362400F367be8543Bca8e1F",
+      "tx": "0xbe2565f83328b8db05de50cc29ca226b9b4089c09a77375895d76accb553c8ef",
+      "status": "ACCEPTED",
+      "ok": true,
+      "refusal": ""
+    }
+  ],
+  "plans": [
+    {
+      "checks": 2,
+      "closed_at": "2026-11-23T22:25:37Z",
+      "ends_at": "2026-11-23T22:24:56Z",
+      "funder": "0x1a369d23B0D06321b29eA9DE862533849d04648b",
+      "installment_amounts": [
+        "30000000000000000",
+        "30000000000000000",
+        "30000000000000000"
+      ],
+      "installments": 3,
+      "interval": 600,
+      "maintainer": "0x076AeE420B133d4faEAdC8436412BC5D326c5d60",
+      "max_age_days": 30,
+      "paid_total": "60000000000000000",
+      "returned": "30000000000000000",
+      "started_at": "2026-11-23T21:54:56Z",
+      "status": "closed",
+      "title": "Quickstart guide, kept current",
+      "total": "90000000000000000",
+      "url": "https://raw.githubusercontent.com/meitipro/stalecheck/master/demo/pages/guide_fresh.md",
+      "windows_paid": 2
+    },
+    {
+      "checks": 2,
+      "closed_at": "2026-11-23T22:25:57Z",
+      "ends_at": "2026-11-23T22:15:12Z",
+      "funder": "0x1a369d23B0D06321b29eA9DE862533849d04648b",
+      "installment_amounts": [
+        "30000000000000000",
+        "30000000000000000"
+      ],
+      "installments": 2,
+      "interval": 600,
+      "maintainer": "0x076AeE420B133d4faEAdC8436412BC5D326c5d60",
+      "max_age_days": 30,
+      "paid_total": "0",
+      "returned": "60000000000000000",
+      "started_at": "2026-11-23T21:55:12Z",
+      "status": "closed",
+      "title": "Quickstart guide, an old copy",
+      "total": "60000000000000000",
+      "url": "https://raw.githubusercontent.com/meitipro/stalecheck/master/demo/pages/guide_stale.md",
+      "windows_paid": 0
+    }
+  ],
+  "checks": [
+    {
+      "checks": [
+        {
+          "age_days": 3,
+          "as_of": "2026-11-20",
+          "at": "2026-11-23T21:55:49Z",
+          "id": 0,
+          "paid": "30000000000000000",
+          "plan": 0,
+          "reason_is_leader_supplied": true,
+          "verdict": "fresh",
+          "why": "The page contains a line reading \"Last updated: 2026-11-20\", which is its own last-updated stamp; no other dates appear.",
+          "window": 0
+        },
+        {
+          "age_days": 3,
+          "as_of": "2026-11-20",
+          "at": "2026-11-23T22:05:14Z",
+          "id": 3,
+          "paid": "30000000000000000",
+          "plan": 0,
+          "reason_is_leader_supplied": true,
+          "verdict": "fresh",
+          "why": "The page explicitly states \u201cLast updated: 2026-11-20\u201d.",
+          "window": 1
+        }
+      ],
+      "title": "Quickstart guide, kept current"
+    },
+    {
+      "checks": [
+        {
+          "age_days": 631,
+          "as_of": "2025-03-02",
+          "at": "2026-11-23T21:56:29Z",
+          "id": 1,
+          "paid": "0",
+          "plan": 1,
+          "reason_is_leader_supplied": true,
+          "verdict": "stale",
+          "why": "The page includes the line \"Last updated: 2025-03-02\" indicating its own revision date.",
+          "window": 0
+        },
+        {
+          "age_days": 631,
+          "as_of": "2025-03-02",
+          "at": "2026-11-23T21:56:54Z",
+          "id": 2,
+          "paid": "0",
+          "plan": 1,
+          "reason_is_leader_supplied": true,
+          "verdict": "stale",
+          "why": "The page explicitly says \u201cLast updated: 2025-03-02,\u201d which is its own revision stamp.",
+          "window": 0
+        }
+      ],
+      "title": "Quickstart guide, an old copy"
+    }
+  ]
+}

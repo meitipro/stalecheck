@@ -1,0 +1,8 @@
+{
+  "name": "stalecheck-send",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Sends one transaction to StudioNet with genlayer-js 2.x, which attaches the fee StudioNet now asks for. scripts/studio.py calls it; reads and receipts stay in genlayer-py.",
+  "dependencies": { "genlayer-js": "2.0.0-rc.3" }
+}

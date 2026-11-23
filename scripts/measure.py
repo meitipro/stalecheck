@@ -96,13 +96,13 @@ def render_deployment(rec):
         for r in block["checks"]:
             if r["why"]:
                 out.append(f"| {k} | {r['why'].replace('|', '/')} |")
-    b = rec["balances"]
-    out += ["", "Every wallet that was paid, its balance read from the chain before and again once every "
-                "payment had landed, against what the contract says it sent:", "",
-            "| Wallet | Gained | The contract sent |", "|---|---|---|"]
+    out += ["", "StudioNet charges a fee on every write, so a wallet's balance alone cannot show what it was "
+                "paid. What each wallet received is read from the chain's own index: the transfers the "
+                "contract sent it, against what the contract says it sent:", "",
+            "| Wallet | Received from the contract | The contract sent | Transfer |", "|---|---|---|---|"]
     for name, owed in rec["owed"].items():
-        gained = int(b[f"{name}_after"]) - int(b[f"{name}_before"])
-        out.append(f"| {name} | {gen(gained)} | {gen(owed)} |")
+        txs = ", ".join(tx(x["tx"]) for x in rec["payouts"][name]) or "-"
+        out.append(f"| {name} | {gen(rec['received'][name])} | {gen(owed)} | {txs} |")
     out += ["", f"Held by the contract afterwards: {rec['held_after']} wei."]
     out += ["", "Every transaction, in order, refusals included, with the wallet that sent it:", "",
             "| Step | From | Outcome | Transaction |", "|---|---|---|---|"]

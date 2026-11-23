@@ -20,11 +20,15 @@ StudioNet test GEN from StudioNet's own faucet and nothing else.
 """
 
 import json
+import pathlib
+import subprocess
+import sys
 import time
 
 from genlayer_py import create_account, create_client, studionet
 from genlayer_py.types import TransactionStatus
 
+NODE_DIR = pathlib.Path(__file__).absolute().parent / "node"
 GEN = 10 ** 18
 EXPLORER = "https://explorer-studio.genlayer.com"
 RPC = "https://studio.genlayer.com/api"
@@ -125,6 +129,27 @@ class Studio:
         if self.balance(address) < int(wei):
             raise SystemExit(f"the StudioNet faucet did not fund {address}; try again in a minute")
 
+    # -- sending -------------------------------------------------------------
+
+    @staticmethod
+    def _arg(a):
+        """An integer argument survives JSON as a tagged string, so a wei amount
+        past 2**53 reaches genlayer-js as the bigint it is."""
+        return {"$int": str(int(a))} if isinstance(a, int) and not isinstance(a, bool) else a
+
+    def _node_send(self, acct, req):
+        """Send one transaction through scripts/node/send.mjs (genlayer-js 2.x),
+        which attaches the fee StudioNet now asks for on every write and deploy.
+        genlayer-py 0.18 cannot, so it still does the reads and the receipts.
+        Raises on failure, so _submit's nonce check decides whether to resend."""
+        key = acct.key.hex()
+        req = dict(req, key=key if key.startswith("0x") else "0x" + key)
+        proc = subprocess.run(["node", "send.mjs"], cwd=NODE_DIR, input=json.dumps(req), capture_output=True,
+                              text=True, encoding="utf-8", timeout=240, shell=(sys.platform == "win32"))
+        for line in proc.stdout.splitlines():
+            if line.startswith("HASH "):
+                return line[5:].strip()
+        raise RuntimeError(((proc.stdout + proc.stderr).strip().splitlines() or ["send.mjs gave no answer"])[-1])
     # -- transactions --------------------------------------------------------
 
     def _client(self, acct):
@@ -202,7 +227,7 @@ class Studio:
 
     def deploy(self, acct, code, args):
         client = self._client(acct)
-        tx = self._submit(acct, lambda: client.deploy_contract(code=code, account=acct, args=args))
+        tx = self._submit(acct, lambda: self._node_send(acct, {"op": "deploy", "code": code, "args": [self._arg(a) for a in args]}))
         print(f"  deploy tx {tx}")
         receipt = self._wait(client, tx, TransactionStatus.FINALIZED)
         out = outcome(receipt)
@@ -224,8 +249,8 @@ class Studio:
         "refused"; a result that contradicts it stops the run, because the
         demo claims whatever it records."""
         client = self._client(acct)
-        tx = self._submit(acct, lambda: client.write_contract(address=address, function_name=method,
-                                                             account=acct, args=args, value=int(value)))
+        tx = self._submit(acct, lambda: self._node_send(acct, {"op": "write", "address": address, "function": method,
+                                                           "args": [self._arg(a) for a in args], "value": str(int(value))}))
         receipt = self._wait(client, tx)
         out = outcome(receipt)
         row = {"step": step or method, "method": method, "from": acct.address, "tx": tx, "status": out["status"],

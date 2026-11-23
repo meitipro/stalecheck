@@ -181,8 +181,7 @@ class TestTheRecord:
         rec = self._record()
         replay(self._readings(rec), who=rec["accounts"], start=rec["plans"][0]["started_at"])
         got = received()
-        b = rec["balances"]
         for name in rec["owed"]:
-            gained = int(b[f"{name}_after"]) - int(b[f"{name}_before"])
-            assert gained == got[rec["accounts"][name].lower()] == int(rec["owed"][name]), name
+            assert int(rec["received"][name]) == got[rec["accounts"][name].lower()] == int(rec["owed"][name]), name
+            assert sum(int(x["value"]) for x in rec["payouts"][name]) == int(rec["received"][name]), name
         assert rec["held_after"] == "0"
